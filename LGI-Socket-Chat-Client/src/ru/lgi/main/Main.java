@@ -8,6 +8,7 @@ package ru.lgi.main;
  *
  */
 public class Main {
+	MainWindow window;
 
 	/**
 	 * @param args
