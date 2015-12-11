@@ -1,9 +1,10 @@
 /**
- * 
+ * https://www.youtube.com/watch?v=ML_IjppR_SU
  */
 package ru.lgi.main;
 
 import java.awt.Cursor;
+import java.awt.Event;
 import java.awt.Window;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -69,7 +70,12 @@ public class Main {
 		}*/
 		window.userTextArea.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
+			}
+		});
+		window.userTextArea.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(!window.userTextArea.getText().equals("")){
 						msg = window.userTextArea.getText();
