@@ -40,7 +40,7 @@ public class Main {
 
 			Charset cs = Charset.forName("UTF-8");
 			String msg = "Helllo";
-			byte[] data = msg.getBytes();
+			byte[] data = msg.getBytes(cs);
 			attach.buffer.put(data);
 			attach.buffer.flip();
 
