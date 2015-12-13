@@ -3,23 +3,19 @@
  */
 package ru.lgi.main;
 
-import java.awt.Cursor;
-import java.awt.Event;
-import java.awt.Window;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.net.SocketAddress;
-import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.charset.Charset;
-import java.util.Random;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
-import javax.xml.bind.attachment.AttachmentMarshaller;
+import javax.swing.JOptionPane;
+
+import naga.NIOService;
+import naga.NIOSocket;
+import naga.SocketObserverAdapter;
 
 /**
  * @author LaughingMaan
@@ -28,46 +24,53 @@ import javax.xml.bind.attachment.AttachmentMarshaller;
 public class Main {
 	static MainWindow window;
 	static String msg;
+	//private static Attachment attach;
+	//private static ReadWriteHandler readWriteHandler;
+	private static Charset cs = Charset.forName("UTF-8");;
+	//private static AsynchronousSocketChannel channel;
+	private static int port;
+	private static NIOSocket socket;
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
 		window = new MainWindow();
 		window.setVisible(true);
-		
-		for(int i = 0; i<1000;i++){
-			window.userTextArea.append("1");
-		}
-		/*try {
-			AsynchronousSocketChannel channel = AsynchronousSocketChannel.open();
-			SocketAddress serverAddr = new InetSocketAddress(args[0], Integer.parseInt(args[1]));
+		try {
+			port = 5676;
+			NIOService service = new NIOService();
+			socket = service.openSocket("localhost", port);
+			socket.isOpen();
+			if(socket.socket().isConnected()){window.statusLabel.setText("Connected");}
+			else{window.statusLabel.setText("Unable to connect");}
+			socket.listen(new SocketObserverAdapter(){
+				@Override
+				public void packetReceived(NIOSocket socket, byte[] packet) {
+					//Check the packet, then made a broadcast
+					msg = new String(packet,cs);
+					window.chatTextArea.setText(window.chatTextArea.getText() + msg + " End of message");
+					
+					
+			}});
+			
+
+			/*channel = AsynchronousSocketChannel.open();
+			SocketAddress serverAddr = new InetSocketAddress("localhost", 5678);
 			Future<Void> result = channel.connect(serverAddr);
 			result.get();
-			window.JLabel1.setText("Connected"); // change to label
-			Attachment attach = new Attachment();
+			window.statusLabel.setText("Connected"); // change to label
+			attach = new Attachment();
 			attach.channel = channel;
 			attach.buffer = ByteBuffer.allocate(2048);
 			attach.isRead = false;
-			attach.mainThread = Thread.currentThread();
-
-			Charset cs = Charset.forName("UTF-8");
-			msg = "Helllo";
-			byte[] data = msg.getBytes(cs);
-			attach.buffer.put(data);
-			attach.buffer.flip();
-
-			ReadWriteHandler readWriteHandler = new ReadWriteHandler();
-			channel.write(attach.buffer, attach, readWriteHandler);
-			attach.mainThread.join();
+			attach.mainThread = Thread.currentThread();*/
 
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}*/
+			JOptionPane.showMessageDialog(null, e.toString());
+		} 
 		window.userTextArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -76,22 +79,40 @@ public class Main {
 		window.userTextArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if(!window.userTextArea.getText().equals("")){
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !e.isControlDown()) {
+					if (!window.userTextArea.getText().equals("")) {
 						msg = window.userTextArea.getText();
-						window.chatTextArea.append(msg);
+						//window.chatTextArea.setText(window.chatTextArea.getText() + msg);
+						
+						if(!socket.write(msg.getBytes())){
+							JOptionPane.showMessageDialog(null, "Queque error!");
+						}
+						window.userTextArea.setText("");
+					} else {
 						window.userTextArea.setText("");
 					}
-					else{
-						window.userTextArea.setText("");
-					}
-					
-					
-					//window.usersList.setText(window.userTextArea.getText());
+
+					// window.usersList.setText(window.userTextArea.getText());
 				}
 			}
 		});
-		;
+		
 	}
+
+	/*private static void sendMsg(String msg) {
+		cs = Charset.forName("UTF-8");
+		msg = window.chatTextArea.getText();
+		window.userTextArea.setText("");
+		byte[] data = msg.getBytes(cs);
+		attach.buffer.put(data);
+		attach.buffer.flip();
+		readWriteHandler = new ReadWriteHandler();
+		channel.write(attach.buffer, attach, readWriteHandler);
+		try {
+			attach.mainThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}*/
 
 }
