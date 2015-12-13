@@ -46,7 +46,7 @@ public class Main {
 			if(socket.socket().isConnected()){window.statusLabel.setText("Connected");}
 			else{window.statusLabel.setText("Unable to connect");}
 			socket.listen(new SocketObserverAdapter(){
-				@Override
+				@Override 
 				public void packetReceived(NIOSocket socket, byte[] packet) {
 					//Check the packet, then made a broadcast
 					msg = new String(packet,cs);
