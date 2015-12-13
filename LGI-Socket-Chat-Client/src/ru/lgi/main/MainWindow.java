@@ -3,21 +3,16 @@
  */
 package ru.lgi.main;
 
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.JList;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JButton;
-import java.awt.Font;
-import javax.swing.JPanel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-import java.awt.TextArea;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * @author LaughingMaan
@@ -27,7 +22,8 @@ import java.awt.TextArea;
 public class MainWindow extends JFrame {
 	JLabel statusLabel;
 	JList<?> usersList; // ?
-	JTextArea chatTextArea, userTextArea;
+	JTextArea userTextArea;
+	JEditorPane chatTextEditor;
 	JButton sendButton, settingsButton;
 	private JScrollPane scrollPane_1;
 
@@ -57,18 +53,18 @@ public class MainWindow extends JFrame {
 		getContentPane().add(sendButton);
 
 		settingsButton = new JButton("Settings");
-		settingsButton.setBounds(516, 388, 117, 29);
+		settingsButton.setBounds(506, 389, 117, 29);
 		getContentPane().add(settingsButton);
 		
-		chatTextArea = new JTextArea(20,35);
-		chatTextArea.setEditable(false);
-		chatTextArea.setLineWrap(true);
-		JScrollPane scrollPane = new JScrollPane(chatTextArea);
+		chatTextEditor = new JEditorPane();
+		chatTextEditor.setContentType("text/html");
+		chatTextEditor.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(chatTextEditor);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(6, 6, 450, 370);
 		getContentPane().add(scrollPane);
-		
+		 
 		userTextArea = new JTextArea(5,6);
 		userTextArea.setLineWrap(true);
 		userTextArea.setEditable(true);

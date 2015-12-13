@@ -50,7 +50,7 @@ public class Main {
 				public void packetReceived(NIOSocket socket, byte[] packet) {
 					//Check the packet, then made a broadcast
 					msg = new String(packet,cs);
-					window.chatTextArea.setText(window.chatTextArea.getText() + msg + " End of message");
+					window.chatTextEditor.setText(window.chatTextEditor.getText() + msg + " End of message");
 					
 					
 			}});
