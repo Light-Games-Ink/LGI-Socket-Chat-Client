@@ -38,7 +38,7 @@ public class Main {
 
 		window = new MainWindow();
 		window.setVisible(true);
-		try {
+		try { 
 			port = 5676;
 			NIOService service = new NIOService();
 			socket = service.openSocket("localhost", port);

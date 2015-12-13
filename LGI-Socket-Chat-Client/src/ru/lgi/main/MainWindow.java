@@ -64,7 +64,7 @@ public class MainWindow extends JFrame {
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(6, 6, 450, 370);
 		getContentPane().add(scrollPane);
-		 
+		  
 		userTextArea = new JTextArea(5,6);
 		userTextArea.setLineWrap(true);
 		userTextArea.setEditable(true);
