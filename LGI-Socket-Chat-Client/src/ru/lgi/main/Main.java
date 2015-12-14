@@ -3,6 +3,9 @@
  */
 package ru.lgi.main;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -22,6 +25,7 @@ import naga.packetwriter.AsciiLinePacketWriter;
  */
 public class Main {
 	static MainWindow window;
+	static SettingsWindow settings = new SettingsWindow();
 	private static String msg;
 	private static Charset cs = Charset.forName("UTF-8");
 	private static int port;
@@ -35,6 +39,11 @@ public class Main {
 
 		window = new MainWindow();
 		window.setVisible(true);
+		window.settingsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				settings.setVisible(true);
+			}
+		});
 		try {
 
 			port = 5674;
@@ -43,6 +52,7 @@ public class Main {
 			socket.setPacketReader(new AsciiLinePacketReader());
 			socket.setPacketWriter(new AsciiLinePacketWriter());
 			machine.start();
+			window.chatTextEditor.setText("Welcome to LGI chat!");
 			socket.listen(new SocketObserver() {
 
 				@Override
@@ -55,8 +65,10 @@ public class Main {
 					// new message!!
 					try {
 						msg = new String(packet, cs);
-						window.chatTextEditor.setText(window.chatTextEditor.getText() + msg); // check
-																								// it
+						//int index1 = window.chatTextEditor.getText().lastIndexOf(window.chatTextEditor.getText());
+						String setT = String.join("\n",window.chatTextEditor.getText(), msg);
+						
+						window.chatTextEditor.setText(setT); 														// it
 
 					} catch (Exception ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -65,13 +77,16 @@ public class Main {
 
 				@Override
 				public void connectionOpened(NIOSocket nioSocket) {
+					window.statusLabel.setForeground(Color.green);
 					window.statusLabel.setText("Connected");
 
 				}
 
 				@Override
 				public void connectionBroken(NIOSocket nioSocket, Exception exception) {
-					JOptionPane.showMessageDialog(null, "Connection broken");
+					window.statusLabel.setForeground(Color.red);
+					window.statusLabel.setText("Connection broken");
+					socket.close();
 
 				}
 			});

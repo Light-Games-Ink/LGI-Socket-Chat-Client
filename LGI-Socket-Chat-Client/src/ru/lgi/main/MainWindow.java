@@ -13,6 +13,9 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 /**
  * @author LaughingMaan
@@ -22,8 +25,8 @@ import javax.swing.ScrollPaneConstants;
 public class MainWindow extends JFrame {
 	JLabel statusLabel;
 	JList<?> usersList; // ?
-	JTextArea userTextArea;
-	JEditorPane chatTextEditor;
+	// JTextArea userTextArea;
+	JEditorPane chatTextEditor, userTextArea;
 	JButton sendButton, settingsButton;
 	private JScrollPane scrollPane_1;
 
@@ -38,8 +41,8 @@ public class MainWindow extends JFrame {
 		setResizable(false);
 		getContentPane().setLayout(null);
 		statusLabel = new JLabel();
+		statusLabel.setForeground(Color.BLACK);
 		statusLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
-		statusLabel.setText("sample text");
 		statusLabel.setBounds(6, 506, 100, 16);
 		getContentPane().add(statusLabel);
 		
@@ -53,11 +56,16 @@ public class MainWindow extends JFrame {
 		getContentPane().add(sendButton);
 
 		settingsButton = new JButton("Settings");
+		settingsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		settingsButton.setBounds(506, 389, 117, 29);
 		getContentPane().add(settingsButton);
 		
 		chatTextEditor = new JEditorPane();
-		chatTextEditor.setContentType("text/html");
+		chatTextEditor.setContentType("text/plain");
 		chatTextEditor.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(chatTextEditor);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -65,8 +73,8 @@ public class MainWindow extends JFrame {
 		scrollPane.setBounds(6, 6, 450, 370);
 		getContentPane().add(scrollPane);
 		  
-		userTextArea = new JTextArea(5,6);
-		userTextArea.setLineWrap(true);
+		userTextArea = new JEditorPane();
+		userTextArea.setContentType("text/plain");
 		userTextArea.setEditable(true);
 		scrollPane_1 = new JScrollPane(userTextArea);
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
