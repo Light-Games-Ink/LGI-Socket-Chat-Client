@@ -27,7 +27,7 @@ public class MainWindow extends JFrame {
 	JList<?> usersList; // ?
 	// JTextArea userTextArea;
 	JEditorPane chatTextEditor, userTextArea;
-	JButton sendButton, settingsButton;
+	JButton sendButton, settingsButton, reconnectButton;
 	private JScrollPane scrollPane_1;
 
 	/**
@@ -81,6 +81,11 @@ public class MainWindow extends JFrame {
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane_1.setBounds(6, 385, 450, 99);
 		getContentPane().add(scrollPane_1);
+		
+		reconnectButton = new JButton("Reconnect");
+		reconnectButton.setEnabled(false);
+		reconnectButton.setBounds(506, 430, 117, 29);
+		getContentPane().add(reconnectButton);
 
 	}
 }

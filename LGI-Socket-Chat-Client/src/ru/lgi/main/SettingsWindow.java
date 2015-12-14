@@ -2,6 +2,8 @@ package ru.lgi.main;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
  
@@ -11,11 +13,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class SettingsWindow extends JFrame {
 	public JTextField userNickname;
 	public JPanel selectedColor;
+	private JButton applyButton;
+	private JButton cancelButton;
+	private JButton adminButton;
 	 
 	public SettingsWindow() {
 		setType(Type.POPUP);
@@ -27,6 +33,7 @@ public class SettingsWindow extends JFrame {
 		setLocationRelativeTo(null);
 		
 		JLabel lblNickname = new JLabel("Nickname:");
+		lblNickname.setVisible(false);
 		lblNickname.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNickname.setBounds(10, 11, 75, 20);
 		getContentPane().add(lblNickname);
@@ -34,9 +41,8 @@ public class SettingsWindow extends JFrame {
 		userNickname = new JTextField();
 		userNickname.setBackground(new Color(255, 255, 255));
 		userNickname.setForeground(Color.black);
-		userNickname.setFont(new Font("Tahoma", Font.BOLD, 12));
+		userNickname.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		userNickname.setHorizontalAlignment(SwingConstants.CENTER);
-		userNickname.setText("It's my Nick!");
 		userNickname.setBounds(95, 13, 86, 20);
 		getContentPane().add(userNickname);
 		userNickname.setColumns(10);
@@ -64,5 +70,28 @@ public class SettingsWindow extends JFrame {
 		selectedColor.setBackground(Color.black);
 		selectedColor.setBounds(95, 44, 20, 18);
 		getContentPane().add(selectedColor);
+		
+		applyButton = new JButton("Apply");
+		applyButton.setBounds(10, 93, 117, 29);
+		getContentPane().add(applyButton);
+		
+		cancelButton = new JButton("Cancel");
+		cancelButton.setBounds(177, 93, 117, 29);
+		getContentPane().add(cancelButton);
+		
+		
+		
+	}
+	public void setAdmin() {
+		adminButton = new JButton("Admin");
+		adminButton.setBounds(177, 40, 117, 29);
+		getContentPane().add(adminButton);
+		adminButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Admin window
+			}
+			
+		});
 	}
 }
