@@ -66,7 +66,8 @@ public class Main {
 					try {
 						msg = new String(packet, cs);
 						window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
-								window.chatTextEditor.getText().length() - 26) + "\n" + msg + "<br></p></body></html>");
+								window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
+						window.chatTextEditor.setCaretPosition(window.chatTextEditor.getDocument().getLength());
 
 					} catch (Exception ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -102,8 +103,9 @@ public class Main {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !e.isControlDown()) {
-					sendPacket(settings.c.darker(),
+					sendPacket(getHexColor(settings.selectedColor.getBackground().darker()),
 							window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1));
+					
 					window.userTextArea.setText("");
 				}
 
@@ -113,14 +115,18 @@ public class Main {
 
 	}
 
-	public static void sendPacket(Color color, String msg) {
+	public static void sendPacket(String color, String msg) {
 		if (!msg.equals("")) {
-			if (color.toString() != "") {
-
+			if(!color.matches("#000000")){
 				socket.write(("&C" + color.toString() + msg).getBytes(cs));
-			} else {
+		}
+			else{
 				socket.write(msg.getBytes(cs));
 			}
 		}
+	}
+	public static String getHexColor(Color color){
+		final String hex = Integer.toHexString(color.getRGB()).toUpperCase();
+		return "#" + hex.substring(2, hex.length());
 	}
 }

@@ -1,16 +1,14 @@
 package ru.lgi.main;
 
-import javax.swing.JFrame;
+import java.awt.Color;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
-import java.awt.Color;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
+import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
 public class AdminWindow extends JFrame{
@@ -31,7 +29,8 @@ public class AdminWindow extends JFrame{
 		JComboBox usersOnlineList = new JComboBox();
 		usersOnlineList.setBounds(6, 20, 160, 27);
 		panel.add(usersOnlineList);
-		usersOnlineList.setModel(new DefaultComboBoxModel(new String[] {"Ferago", "Petush", "Cock", "Pipi", "Chlen", "Nigga-nigga-nigga", "uesr1", "user2", "user3", "user4", "user5", "user6", "seru7", "user8"}));
+		usersOnlineList.setModel(new DefaultComboBoxModel(new String[] {"", "Petush", "Cock", "Pipi", "Chlen", "Nigga-"
+				+ "-nigga", "uesr1", "user2", "user3", "user4", "user5", "user6", "seru7", "user8"}));
 		usersOnlineList.setSelectedIndex(0);
 		usersOnlineList.setEditable(true);
 		
@@ -55,3 +54,4 @@ public class AdminWindow extends JFrame{
 		
 	}
 }
+	
