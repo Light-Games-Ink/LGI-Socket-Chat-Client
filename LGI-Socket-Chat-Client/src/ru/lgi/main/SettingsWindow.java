@@ -22,6 +22,7 @@ public class SettingsWindow extends JFrame {
 	private JButton applyButton;
 	private JButton cancelButton;
 	private JButton adminButton;
+	public Color c;
 	 
 	public SettingsWindow() {
 		setType(Type.POPUP);
@@ -46,7 +47,7 @@ public class SettingsWindow extends JFrame {
 		userNickname.setBounds(95, 13, 86, 20);
 		getContentPane().add(userNickname);
 		userNickname.setColumns(10);
-		
+		c = null;
 		JLabel lblColor = new JLabel("Color:");
 		lblColor.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblColor.setBounds(10, 42, 75, 20);
@@ -56,7 +57,7 @@ public class SettingsWindow extends JFrame {
 		selectedColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent click) {
-				Color c = JColorChooser.showDialog(rootPane,    // Dialog appears over this
+				c = JColorChooser.showDialog(rootPane,    // Dialog appears over this
                         						   "Pick a Color", // Dialog title 
                         						   Color.black);   // Default color selection
 				try{

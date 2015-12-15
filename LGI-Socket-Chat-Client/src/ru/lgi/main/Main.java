@@ -65,10 +65,8 @@ public class Main {
 					// new message!!
 					try {
 						msg = new String(packet, cs);
-						//int index1 = window.chatTextEditor.getText().lastIndexOf(window.chatTextEditor.getText());
-						String setT = String.join("\n",window.chatTextEditor.getText(), msg);
-						
-						window.chatTextEditor.setText(setT); 														// it
+						window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
+								window.chatTextEditor.getText().length() - 26) + "\n" + msg + "<br></p></body></html>");
 
 					} catch (Exception ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -104,20 +102,25 @@ public class Main {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !e.isControlDown()) {
-					if (!window.userTextArea.getText().equals("")) {
-						socket.write(window.userTextArea.getText()
-								.substring(0, window.userTextArea.getText().length() - 1).getBytes(cs));
-
-						window.userTextArea.setText("");
-
-					} else {
-						window.userTextArea.setText("");
-					}
-
+					sendPacket(settings.c.darker(),
+							window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1));
+					window.userTextArea.setText("");
 				}
+
 			}
+
 		});
 
 	}
 
+	public static void sendPacket(Color color, String msg) {
+		if (!msg.equals("")) {
+			if (color.toString() != "") {
+
+				socket.write(("&C" + color.toString() + msg).getBytes(cs));
+			} else {
+				socket.write(msg.getBytes(cs));
+			}
+		}
+	}
 }

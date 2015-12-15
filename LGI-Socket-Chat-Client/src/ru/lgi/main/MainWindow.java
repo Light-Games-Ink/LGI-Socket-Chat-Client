@@ -65,7 +65,7 @@ public class MainWindow extends JFrame {
 		getContentPane().add(settingsButton);
 		
 		chatTextEditor = new JEditorPane();
-		chatTextEditor.setContentType("text/plain");
+		chatTextEditor.setContentType("text/html");
 		chatTextEditor.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(chatTextEditor);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
