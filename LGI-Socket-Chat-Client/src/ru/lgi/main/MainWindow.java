@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -23,7 +24,10 @@ import javax.swing.ScrollPaneConstants;
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
 	JLabel statusLabel;
-	JList<?> usersList; // ?
+	@SuppressWarnings("rawtypes")
+	DefaultListModel listModel;
+	@SuppressWarnings("rawtypes")
+	JList usersList; // ?
 	// JTextArea userTextArea;
 	JEditorPane chatTextEditor, userTextArea;
 	JButton sendButton, settingsButton, reconnectButton;
@@ -32,6 +36,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * @constructor
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public MainWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -45,8 +50,8 @@ public class MainWindow extends JFrame {
 		statusLabel.setBounds(6, 506, 100, 16);
 		getContentPane().add(statusLabel);
 		
-
-		usersList = new JList<Object>(); // ??
+		listModel = new DefaultListModel();
+		usersList = new JList(listModel); // ??
 		usersList.setBounds(468, 6, 163, 370);
 		getContentPane().add(usersList);
 

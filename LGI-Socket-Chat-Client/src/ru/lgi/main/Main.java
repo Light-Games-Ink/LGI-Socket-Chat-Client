@@ -48,7 +48,7 @@ public class Main {
 
 			port = 5674;
 			EventMachine machine = new EventMachine();
-			socket = machine.getNIOService().openSocket("localhost", port);
+			socket = machine.getNIOService().openSocket("127.0.0.1", port);
 			socket.setPacketReader(new AsciiLinePacketReader());
 			socket.setPacketWriter(new AsciiLinePacketWriter());
 			machine.start();
@@ -60,15 +60,27 @@ public class Main {
 
 				}
 
+				@SuppressWarnings("unchecked")
 				@Override
 				public void packetReceived(NIOSocket socket, byte[] packet) {
 					// new message!!
 					try {
 						msg = new String(packet, cs);
-						window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
-								window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
-						window.chatTextEditor.setCaretPosition(window.chatTextEditor.getDocument().getLength());
-
+						if (msg.contains("&ULR")) {
+							// user list request;
+							String[] users = msg.split("&ULR");
+							window.listModel.clear();
+							for (String user : users) {
+								window.listModel.addElement(user);
+							}
+							// window.usersList.setListData(users);
+						}else if (msg.contains("logged in.")) {
+							socket.write("&ULR".getBytes(cs));
+						}else {
+							window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
+									window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
+							window.chatTextEditor.setCaretPosition(window.chatTextEditor.getDocument().getLength());
+						}
 					} catch (Exception ex) {
 						JOptionPane.showMessageDialog(null, ex.getMessage());
 					}
@@ -105,7 +117,7 @@ public class Main {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !e.isControlDown()) {
 					sendPacket(getHexColor(settings.selectedColor.getBackground().darker()),
 							window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1));
-					
+
 					window.userTextArea.setText("");
 				}
 
@@ -117,15 +129,15 @@ public class Main {
 
 	public static void sendPacket(String color, String msg) {
 		if (!msg.equals("")) {
-			if(!color.matches("#000000")){
+			if (!color.matches("#000000")) {
 				socket.write(("&C" + color.toString() + msg).getBytes(cs));
-		}
-			else{
+			} else {
 				socket.write(msg.getBytes(cs));
 			}
 		}
 	}
-	public static String getHexColor(Color color){
+
+	public static String getHexColor(Color color) {
 		final String hex = Integer.toHexString(color.getRGB()).toUpperCase();
 		return "#" + hex.substring(2, hex.length());
 	}
