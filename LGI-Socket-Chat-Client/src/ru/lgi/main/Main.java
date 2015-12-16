@@ -74,9 +74,9 @@ public class Main {
 								window.listModel.addElement(user);
 							}
 							// window.usersList.setListData(users);
-						}else if (msg.contains("logged in.")) {
+						} else if (msg.contains("logged in.")) {
 							socket.write("&ULR".getBytes(cs));
-						}else {
+						} else {
 							window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
 									window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
 							window.chatTextEditor.setCaretPosition(window.chatTextEditor.getDocument().getLength());
@@ -137,6 +137,10 @@ public class Main {
 		}
 	}
 
+	/**
+	 * @author alee
+	 *
+	 */
 	public static String getHexColor(Color color) {
 		final String hex = Integer.toHexString(color.getRGB()).toUpperCase();
 		return "#" + hex.substring(2, hex.length());

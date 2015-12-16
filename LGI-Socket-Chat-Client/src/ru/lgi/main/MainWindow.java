@@ -18,7 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 /**
- * @author LaughingMaan
+ * @author tails217
  *
  */
 @SuppressWarnings("serial")
@@ -49,7 +49,7 @@ public class MainWindow extends JFrame {
 		statusLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
 		statusLabel.setBounds(6, 506, 100, 16);
 		getContentPane().add(statusLabel);
-		
+
 		listModel = new DefaultListModel();
 		usersList = new JList(listModel); // ??
 		usersList.setBounds(468, 6, 163, 370);
@@ -62,12 +62,12 @@ public class MainWindow extends JFrame {
 		settingsButton = new JButton("Settings");
 		settingsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		settingsButton.setBounds(506, 389, 117, 29);
 		getContentPane().add(settingsButton);
-		
+
 		chatTextEditor = new JEditorPane();
 		chatTextEditor.setContentType("text/html");
 		chatTextEditor.setEditable(false);
@@ -76,7 +76,7 @@ public class MainWindow extends JFrame {
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(6, 6, 450, 370);
 		getContentPane().add(scrollPane);
-		  
+
 		userTextArea = new JEditorPane();
 		userTextArea.setContentType("text/plain");
 		userTextArea.setEditable(true);
@@ -85,7 +85,7 @@ public class MainWindow extends JFrame {
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane_1.setBounds(6, 385, 450, 99);
 		getContentPane().add(scrollPane_1);
-		
+
 		reconnectButton = new JButton("Reconnect");
 		reconnectButton.setEnabled(false);
 		reconnectButton.setBounds(506, 430, 117, 29);
