@@ -42,7 +42,6 @@ public class SettingsWindow extends JFrame {
 		setLocationRelativeTo(null);
 
 		JLabel lblNickname = new JLabel("Nickname:");
-		lblNickname.setVisible(false);
 		lblNickname.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNickname.setBounds(10, 11, 75, 20);
 		getContentPane().add(lblNickname);
@@ -82,11 +81,11 @@ public class SettingsWindow extends JFrame {
 		getContentPane().add(selectedColor);
 
 		applyButton = new JButton("Apply");
-		applyButton.setBounds(10, 93, 117, 29);
+		applyButton.setBounds(10, 73, 117, 29);
 		getContentPane().add(applyButton);
 
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(177, 93, 117, 29);
+		cancelButton.setBounds(167, 73, 117, 29);
 		getContentPane().add(cancelButton);
 
 	}

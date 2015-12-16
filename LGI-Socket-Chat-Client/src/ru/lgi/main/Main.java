@@ -26,11 +26,13 @@ import naga.packetwriter.AsciiLinePacketWriter;
 public class Main {
 	static MainWindow window;
 	static SettingsWindow settings = new SettingsWindow();
-	private static String msg;
-	private static Charset cs = Charset.forName("UTF-8");
+	private static String msg, host;
+	private static Charset cs = Charset.forName("windows-1251");
 	private static int port;
 	private static NIOSocket socket;
 	static byte[] content;
+	static EventMachine machine;
+	static SocketObserver observer;
 
 	/**
 	 * @param args
@@ -44,87 +46,109 @@ public class Main {
 				settings.setVisible(true);
 			}
 		});
-		try {
 
-			port = 5674;
-			EventMachine machine = new EventMachine();
-			socket = machine.getNIOService().openSocket("127.0.0.1", port);
-			socket.setPacketReader(new AsciiLinePacketReader());
-			socket.setPacketWriter(new AsciiLinePacketWriter());
-			machine.start();
-			window.chatTextEditor.setText("Welcome to LGI chat!");
-			socket.listen(new SocketObserver() {
+		host = "127.0.0.1";
+		port = 5674;
 
-				@Override
-				public void packetSent(NIOSocket socket, Object tag) {
+		window.chatTextEditor.setText("<h2>Welcome to LGI chat!</h2>");
+		configureConnection();
 
-				}
-
-				@SuppressWarnings("unchecked")
-				@Override
-				public void packetReceived(NIOSocket socket, byte[] packet) {
-					// new message!!
-					try {
-						msg = new String(packet, cs);
-						if (msg.contains("&ULR")) {
-							// user list request;
-							String[] users = msg.split("&ULR");
-							window.listModel.clear();
-							for (String user : users) {
-								window.listModel.addElement(user);
-							}
-							// window.usersList.setListData(users);
-						} else if (msg.contains("logged in.")) {
-							socket.write("&ULR".getBytes(cs));
-						} else {
-							window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
-									window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
-							window.chatTextEditor.setCaretPosition(window.chatTextEditor.getDocument().getLength());
-						}
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage());
-					}
-				}
-
-				@Override
-				public void connectionOpened(NIOSocket nioSocket) {
-					window.statusLabel.setForeground(Color.green);
-					window.statusLabel.setText("Connected");
-
-				}
-
-				@Override
-				public void connectionBroken(NIOSocket nioSocket, Exception exception) {
-					window.statusLabel.setForeground(Color.red);
-					window.statusLabel.setText("Connection broken");
-					socket.close();
-
-				}
-			});
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.toString());
-		}
-		window.userTextArea.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-		});
 		window.userTextArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !e.isControlDown()) {
-					sendPacket(getHexColor(settings.selectedColor.getBackground().darker()),
-							window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1));
-
-					window.userTextArea.setText("");
+					sendFromForm();
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_ENTER && e.isControlDown()){
+					window.userTextArea.setText(window.userTextArea.getText()+"\n");
 				}
 
 			}
 
 		});
+		window.reconnectButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				configureConnection();
+			}
+		});
+		window.sendButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sendFromForm();
+			}
+		});
 
+	}
+
+	protected static void sendFromForm() {
+		sendPacket(getHexColor(settings.selectedColor.getBackground().darker()),
+				window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1));
+		window.userTextArea.setText("");
+
+	}
+
+	public static void configureConnection() {
+		try {
+			machine = new EventMachine();
+			socket = machine.getNIOService().openSocket(host, port);
+			socket.setPacketReader(new AsciiLinePacketReader());
+			socket.setPacketWriter(new AsciiLinePacketWriter());
+			machine.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.toString());
+		}
+
+		socket.listen(new SocketObserver() {
+
+			@Override
+			public void packetSent(NIOSocket socket, Object tag) {
+
+			}
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public void packetReceived(NIOSocket socket, byte[] packet) {
+				// new message!!
+				try {
+					msg = new String(packet, cs);
+					if (msg.contains("&ULR")) {
+						// user list request;
+						String[] users = msg.split("&ULR");
+						window.listModel.clear();
+						for (String user : users) {
+							window.listModel.addElement(user);
+						}
+						// window.usersList.setListData(users);
+					} else if (msg.contains("logged in.") || msg.contains("left the chat")) {
+						socket.write("&ULR".getBytes(cs));
+					} else {
+						window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
+								window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
+						window.chatTextEditor.setCaretPosition(window.chatTextEditor.getDocument().getLength());
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+				}
+			}
+
+			@Override
+			public void connectionOpened(NIOSocket nioSocket) {
+				window.statusLabel.setForeground(Color.green);
+				window.statusLabel.setText("Connected");
+				window.reconnectButton.setEnabled(false);
+
+			}
+
+			@Override
+			public void connectionBroken(NIOSocket nioSocket, Exception exception) {
+				window.statusLabel.setForeground(Color.red);
+				window.statusLabel.setText("Connection broken");
+				window.reconnectButton.setEnabled(true);
+				window.listModel.clear();
+				socket.close();
+
+			}
+		});
 	}
 
 	public static void sendPacket(String color, String msg) {

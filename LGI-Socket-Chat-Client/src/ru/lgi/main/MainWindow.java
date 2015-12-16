@@ -5,6 +5,7 @@ package ru.lgi.main;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,7 +33,7 @@ public class MainWindow extends JFrame {
 	JEditorPane chatTextEditor, userTextArea;
 	JButton sendButton, settingsButton, reconnectButton;
 	private JScrollPane scrollPane_1;
-
+	GridBagConstraints constraints = new GridBagConstraints();	
 	/**
 	 * @constructor
 	 */
@@ -41,7 +42,7 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setLocation((this.getX() - 800 / 2), (this.getY() - 600 / 2));
-		setSize(639, 550);
+		setSize(639, 559);
 		setResizable(false);
 		getContentPane().setLayout(null);
 		statusLabel = new JLabel();
@@ -50,12 +51,18 @@ public class MainWindow extends JFrame {
 		statusLabel.setBounds(6, 506, 100, 16);
 		getContentPane().add(statusLabel);
 
+
 		listModel = new DefaultListModel();
 		usersList = new JList(listModel); // ??
 		usersList.setBounds(468, 6, 163, 370);
 		getContentPane().add(usersList);
 
 		sendButton = new JButton("Send");
+		sendButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+			}
+		});
 		sendButton.setBounds(339, 496, 117, 29);
 		getContentPane().add(sendButton);
 
@@ -71,6 +78,8 @@ public class MainWindow extends JFrame {
 		chatTextEditor = new JEditorPane();
 		chatTextEditor.setContentType("text/html");
 		chatTextEditor.setEditable(false);
+		
+		
 		JScrollPane scrollPane = new JScrollPane(chatTextEditor);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
