@@ -27,7 +27,7 @@ import javax.swing.JButton;
 public class SettingsWindow extends JFrame {
 	public JTextField userNickname;
 	public JPanel selectedColor;
-	private JButton applyButton;
+	public JButton applyButton;
 	private JButton cancelButton;
 	private JButton adminButton;
 	public Color c;

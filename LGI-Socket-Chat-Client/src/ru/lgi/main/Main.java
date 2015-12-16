@@ -33,6 +33,7 @@ public class Main {
 	static byte[] content;
 	static EventMachine machine;
 	static SocketObserver observer;
+	static boolean colorFlag = false;
 
 	/**
 	 * @param args
@@ -57,7 +58,7 @@ public class Main {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !e.isControlDown()) {
-					sendFromForm();
+					sendFromForm(true);
 				}
 				else if(e.getKeyCode() == KeyEvent.VK_ENTER && e.isControlDown()){
 					window.userTextArea.setText(window.userTextArea.getText()+"\n");
@@ -73,15 +74,25 @@ public class Main {
 		});
 		window.sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				sendFromForm();
+				sendFromForm(false);
 			}
 		});
+		settings.applyButton.addActionListener(new ActionListener(){
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				socket.write(("&C" + getHexColor(settings.selectedColor.getBackground().darker())).getBytes(cs));
+				settings.dispose();
+			}
+			
+		});
 	}
 
-	protected static void sendFromForm() {
-		sendPacket(getHexColor(settings.selectedColor.getBackground().darker()),
-				window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1));
+	protected static void sendFromForm(boolean isEnter) {
+		if(isEnter)
+			sendPacket(window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1));
+		else sendPacket(window.userTextArea.getText().substring(0, window.userTextArea.getText().length()));
+		
 		window.userTextArea.setText("");
 
 	}
@@ -151,13 +162,9 @@ public class Main {
 		});
 	}
 
-	public static void sendPacket(String color, String msg) {
+	public static void sendPacket(String msg) {
 		if (!msg.equals("")) {
-			if (!color.matches("#000000")) {
-				socket.write(("&C" + color.toString() + msg).getBytes(cs));
-			} else {
 				socket.write(msg.getBytes(cs));
-			}
 		}
 	}
 
