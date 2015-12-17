@@ -27,7 +27,12 @@ public class Main {
 	static MainWindow window;
 	static SettingsWindow settings = new SettingsWindow();
 	private static String msg, host;
-	private static Charset cs = Charset.forName("windows-1251");
+	/* @charset
+	 * for OS X Server no changes
+	 * for windows server(use Lucida fonts and chcp 65001)
+	 * for unix-based server (use option -Dfile.encoding=ISO-8859-1)
+	 */
+	private static Charset cs = Charset.forName("UTF-8"); 
 	private static int port;
 	private static NIOSocket socket;
 	static byte[] content;
@@ -47,8 +52,10 @@ public class Main {
 				settings.setVisible(true);
 			}
 		});
-
-		host = "127.0.0.1";
+		
+		//host = "37.143.8.24"; //unix-based server (CentOS)
+		//host = "127.0.0.1"; //OS X server (10.7.5)
+		host = "66.66.66.119"; //Wndows Server (Win XP)
 		port = 5674;
 
 		window.chatTextEditor.setText("<h2>Welcome to LGI chat!</h2>");
@@ -132,6 +139,10 @@ public class Main {
 						// window.usersList.setListData(users);
 					} else if (msg.contains("logged in.") || msg.contains("left the chat")) {
 						socket.write("&ULR".getBytes(cs));
+						window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
+								window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
+						window.chatTextEditor.setCaretPosition(window.chatTextEditor.getDocument().getLength());
+					
 					} else {
 						window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
 								window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
