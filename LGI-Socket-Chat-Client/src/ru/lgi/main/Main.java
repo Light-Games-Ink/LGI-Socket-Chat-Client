@@ -44,14 +44,18 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
+		
+	    
+		
 		window = new MainWindow();
+		window.setTitle("LGI Chat");
 		window.setVisible(true);
 		window.settingsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				settings.setVisible(true);
 			}
 		});
+		
 		
 		//host = "37.143.8.24"; //unix-based server (CentOS)
 		//host = "127.0.0.1"; //OS X server (10.7.5)
@@ -68,8 +72,13 @@ public class Main {
 					sendFromForm(true);
 				}
 				else if(e.getKeyCode() == KeyEvent.VK_ENTER && e.isControlDown()){
+					window.userTextArea.setCaretPosition(port);
 					window.userTextArea.setText(window.userTextArea.getText()+"\n");
 				}
+				
+					if(e.getKeyCode() == KeyEvent.VK_C && e.isAltDown())
+						window.chatTextEditor.setText("<html><body>\n");
+					
 
 			}
 

@@ -3,7 +3,6 @@
  */
 package ru.lgi.main;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -15,8 +14,11 @@ import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+
 
 /**
  * @author tails217
@@ -28,28 +30,23 @@ public class MainWindow extends JFrame {
 	@SuppressWarnings("rawtypes")
 	DefaultListModel listModel;
 	@SuppressWarnings("rawtypes")
-	JList usersList; // ?
-	// JTextArea userTextArea;
-	JEditorPane chatTextEditor, userTextArea;
+	JList usersList;
+	JTextArea userTextArea;
+	JEditorPane chatTextEditor;
 	JButton sendButton, settingsButton, reconnectButton;
 	private JScrollPane scrollPane_1;
-	GridBagConstraints constraints = new GridBagConstraints();	
+	GridBagConstraints constraints = new GridBagConstraints();
+	private JPanel panel_1;
 	/**
 	 * @constructor
-	 */
+	 **/
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public MainWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setLocation((this.getX() - 800 / 2), (this.getY() - 600 / 2));
 		setSize(639, 559);
+		setLocationRelativeTo(null);
 		setResizable(false);
 		getContentPane().setLayout(null);
-		statusLabel = new JLabel();
-		statusLabel.setForeground(Color.BLACK);
-		statusLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
-		statusLabel.setBounds(6, 506, 100, 16);
-		getContentPane().add(statusLabel);
 
 
 		listModel = new DefaultListModel();
@@ -75,30 +72,48 @@ public class MainWindow extends JFrame {
 		settingsButton.setBounds(506, 389, 117, 29);
 		getContentPane().add(settingsButton);
 
-		chatTextEditor = new JEditorPane();
-		chatTextEditor.setContentType("text/html");
-		chatTextEditor.setEditable(false);
-		
-		
-		JScrollPane scrollPane = new JScrollPane(chatTextEditor);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(6, 6, 450, 370);
-		getContentPane().add(scrollPane);
-
-		userTextArea = new JEditorPane();
-		userTextArea.setContentType("text/plain");
-		userTextArea.setEditable(true);
-		scrollPane_1 = new JScrollPane(userTextArea);
-		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane_1.setBounds(6, 385, 450, 99);
-		getContentPane().add(scrollPane_1);
-
 		reconnectButton = new JButton("Reconnect");
 		reconnectButton.setEnabled(false);
 		reconnectButton.setBounds(506, 430, 117, 29);
 		getContentPane().add(reconnectButton);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(6, 6, 452, 370);
+		getContentPane().add(panel);
+				panel.setLayout(null);
+		
+				chatTextEditor = new JEditorPane();
+				chatTextEditor.setContentType("text/html");
+				chatTextEditor.setEditable(false);
+				
+				
+				JScrollPane scrollPane = new JScrollPane(chatTextEditor);
+				scrollPane.setBounds(0, 0, 452, 370);
+				panel.add(scrollPane);
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				
+				panel_1 = new JPanel();
+				panel_1.setBounds(6, 389, 450, 98);
+				getContentPane().add(panel_1);
+				panel_1.setLayout(null);
+				scrollPane_1 = new JScrollPane();
+				scrollPane_1.setBounds(0, 0, 450, 99);
+				panel_1.add(scrollPane_1);
+				scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				
+						userTextArea = new JTextArea();
+						scrollPane_1.setViewportView(userTextArea);
+						userTextArea.setLineWrap(true);
+						userTextArea.setWrapStyleWord(true);
+						userTextArea.setEditable(true);
+						statusLabel = new JLabel();
+						statusLabel.setBounds(6, 509, 155, 16);
+						getContentPane().add(statusLabel);
+						statusLabel.setFocusable(false);
+						statusLabel.setFont(new Font("Dialog", Font.BOLD, 11));
 
 	}
 }
+

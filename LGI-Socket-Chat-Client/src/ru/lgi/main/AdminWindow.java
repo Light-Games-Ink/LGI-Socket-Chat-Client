@@ -27,6 +27,9 @@ public class AdminWindow extends JFrame {
 		setResizable(false);
 		setTitle("Admin Settings");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setSize(375,300);
+		setLocationRelativeTo(null);
+		
 		getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
@@ -50,7 +53,7 @@ public class AdminWindow extends JFrame {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Banned Users", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(190, 6, 172, 100);
+		panel_1.setBounds(188, 6, 172, 100);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
