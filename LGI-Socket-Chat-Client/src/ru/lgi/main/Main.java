@@ -27,12 +27,12 @@ public class Main {
 	static MainWindow window;
 	static SettingsWindow settings = new SettingsWindow();
 	private static String msg, host;
-	/* @charset
-	 * for OS X Server no changes
-	 * for windows server(use Lucida fonts and chcp 65001)
-	 * for unix-based server (use option -Dfile.encoding=ISO-8859-1)
+	/*
+	 * @charset for OS X Server no changes for windows server(use Lucida fonts
+	 * and chcp 65001) for unix-based server (use option
+	 * -Dfile.encoding=ISO-8859-1)
 	 */
-	private static Charset cs = Charset.forName("UTF-8"); 
+	private static Charset cs = Charset.forName("UTF-8");
 	private static int port;
 	private static NIOSocket socket;
 	static byte[] content;
@@ -44,9 +44,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-	    
-		
+
 		window = new MainWindow();
 		window.setTitle("LGI Chat");
 		window.setVisible(true);
@@ -55,11 +53,10 @@ public class Main {
 				settings.setVisible(true);
 			}
 		});
-		
-		
-		//host = "37.143.8.24"; //unix-based server (CentOS)
-		//host = "127.0.0.1"; //OS X server (10.7.5)
-		host = "66.66.66.119"; //Wndows Server (Win XP)
+
+		// host = "37.143.8.24"; //unix-based server (CentOS)
+		host = "127.0.0.1"; // OS X server (10.7.5)
+		// host = "66.66.66.119"; //Wndows Server (Win XP)
 		port = 5674;
 
 		window.chatTextEditor.setText("<h2>Welcome to LGI chat!</h2>");
@@ -70,15 +67,13 @@ public class Main {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !e.isControlDown()) {
 					sendFromForm(true);
-				}
-				else if(e.getKeyCode() == KeyEvent.VK_ENTER && e.isControlDown()){
+				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && e.isControlDown()) {
 					window.userTextArea.setCaretPosition(port);
-					window.userTextArea.setText(window.userTextArea.getText()+"\n");
+					window.userTextArea.setText(window.userTextArea.getText() + "\n");
 				}
-				
-					if(e.getKeyCode() == KeyEvent.VK_C && e.isAltDown())
-						window.chatTextEditor.setText("<html><body>\n");
-					
+
+				if (e.getKeyCode() == KeyEvent.VK_C && e.isAltDown())
+					window.chatTextEditor.setText("<html><body>\n");
 
 			}
 
@@ -93,22 +88,23 @@ public class Main {
 				sendFromForm(false);
 			}
 		});
-		settings.applyButton.addActionListener(new ActionListener(){
+		settings.applyButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				socket.write(("&C" + getHexColor(settings.selectedColor.getBackground().darker())).getBytes(cs));
 				settings.dispose();
 			}
-			
+
 		});
 	}
 
 	protected static void sendFromForm(boolean isEnter) {
-		if(isEnter)
+		if (isEnter)
 			sendPacket(window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1));
-		else sendPacket(window.userTextArea.getText().substring(0, window.userTextArea.getText().length()));
-		
+		else
+			sendPacket(window.userTextArea.getText().substring(0, window.userTextArea.getText().length()));
+
 		window.userTextArea.setText("");
 
 	}
@@ -151,7 +147,7 @@ public class Main {
 						window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
 								window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
 						window.chatTextEditor.setCaretPosition(window.chatTextEditor.getDocument().getLength());
-					
+
 					} else {
 						window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
 								window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
@@ -184,7 +180,7 @@ public class Main {
 
 	public static void sendPacket(String msg) {
 		if (!msg.equals("")) {
-				socket.write(msg.getBytes(cs));
+			socket.write(msg.getBytes(cs));
 		}
 	}
 
