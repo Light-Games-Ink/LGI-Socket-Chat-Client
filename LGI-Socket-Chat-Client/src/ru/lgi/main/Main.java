@@ -69,7 +69,7 @@ public class Main {
 					sendFromForm(true);
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && e.isControlDown()) {
 					
-						//window.userTextArea.setText(window.userTextArea.getText().substring(0, window.userTextArea.getCaretPosition()) + "\n" + window.userTextArea.getText().substring(window.userTextArea.getCaretPosition(), window.userTextArea.getText().length()));
+					  //window.userTextArea.setText(window.userTextArea.getText().substring(0, window.userTextArea.getCaretPosition()) + "\n" + window.userTextArea.getText().substring(window.userTextArea.getCaretPosition(), window.userTextArea.getText().length()));
 					   window.userTextArea.insert("\n", window.userTextArea.getCaretPosition());
 				}
 
