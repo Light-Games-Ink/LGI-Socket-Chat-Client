@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import javax.swing.JOptionPane;
+import javax.swing.text.BadLocationException;
 
 import naga.NIOSocket;
 import naga.SocketObserver;
@@ -68,13 +69,23 @@ public class Main {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !e.isControlDown()) {
 					sendFromForm(true);
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && e.isControlDown()) {
-					window.userTextArea.setCaretPosition(port);
-					window.userTextArea.setText(window.userTextArea.getText() + "\n");
+					
+						window.userTextArea.setText(window.userTextArea.getText().substring(0, window.userTextArea.getCaretPosition()) + "\n" + window.userTextArea.getText().substring(window.userTextArea.getCaretPosition(), window.userTextArea.getText().length()));
+					
 				}
 
 				if (e.getKeyCode() == KeyEvent.VK_C && e.isAltDown())
+				{
 					window.chatTextEditor.setText("<html><body>\n");
+				}
 
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e){
+				if(e.getKeyCode() == KeyEvent.VK_ENTER && !e.isControlDown()){
+					window.userTextArea.setCaretPosition(window.userTextArea.getText().length());
+				}
 			}
 
 		});
@@ -101,9 +112,9 @@ public class Main {
 
 	protected static void sendFromForm(boolean isEnter) {
 		if (isEnter)
-			sendPacket(window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1));
+			sendPacket(window.userTextArea.getText().substring(0, window.userTextArea.getText().length() - 1).replace("\n", "<br>"));
 		else
-			sendPacket(window.userTextArea.getText().substring(0, window.userTextArea.getText().length()));
+			sendPacket(window.userTextArea.getText().substring(0, window.userTextArea.getText().length()).replace("\n", "<br>"));
 
 		window.userTextArea.setText("");
 
