@@ -26,6 +26,7 @@ import naga.packetwriter.AsciiLinePacketWriter;
 public class Main {
 	static MainWindow window;
 	static SettingsWindow settings = new SettingsWindow();
+	static LoginWindow loginWindow = new LoginWindow();
 	private static String msg, host;
 	/*
 	 * @charset for OS X Server no changes for windows server(use Lucida fonts
@@ -44,7 +45,8 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
+		
+		loginWindow.setVisible(false);
 		window = new MainWindow();
 		window.setTitle("LGI Chat");
 		window.setVisible(true);
@@ -53,7 +55,33 @@ public class Main {
 				settings.setVisible(true);
 			}
 		});
+		loginWindow.btnLogIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String temp = "&L" + loginWindow.getLoginField().getText().trim().replace("\n", "") + "&P" + String.valueOf(loginWindow.getPasswordField().getPassword()).trim().replace("\n", "");
+				socket.write(temp.getBytes(cs));
+				loginWindow.setVisible(false);
+			}
+		});
+		loginWindow.btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int reply = JOptionPane.showConfirmDialog(null,
+						"This will register you in the server. Do you want to continue?", "Warning!",
+							JOptionPane.YES_NO_OPTION);
+				switch (reply) {
+				case JOptionPane.YES_OPTION:
+					String temp = "&R" + loginWindow.getLoginField().getText().trim().replace("\n", "") + "&P" + String.valueOf(loginWindow.getPasswordField().getPassword()).trim().replace("\n", "");
+					socket.write(temp.getBytes(cs));
+					loginWindow.setVisible(false);;
+					break;
+				case JOptionPane.NO_OPTION:
 
+					break;
+				default:
+					break;
+				}
+			}
+
+		});
 		// host = "37.143.8.24"; //unix-based server (CentOS)
 		host = "127.0.0.1"; // OS X server (10.7.5)
 		// host = "66.66.66.119"; //Wndows Server (Win XP)
@@ -148,7 +176,11 @@ public class Main {
 				// new message!!
 				try {
 					msg = new String(packet, cs);
-					if (msg.contains("&ULR")) {
+					if (msg.startsWith("&LP")) {
+						// open login/register window
+						 loginWindow.setVisible(true);
+
+					} else if (msg.contains("&ULR")) {
 						// user list request;
 						String[] users = msg.split("&ULR");
 						window.listModel.clear();
