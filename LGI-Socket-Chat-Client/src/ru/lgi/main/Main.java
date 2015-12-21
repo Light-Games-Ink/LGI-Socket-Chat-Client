@@ -1,5 +1,5 @@
 /**
- * https://www.youtube.com/watch?v=ML_IjppR_SU
+ *
  */
 package ru.lgi.main;
 
@@ -40,12 +40,19 @@ public class Main {
 	static EventMachine machine;
 	static SocketObserver observer;
 	static boolean colorFlag = false;
+	private static int version = 0;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+		try {
+			if (Integer.parseInt(Updater.getLatestVersion()) > version) {
+                new UpdateInfo(Updater.getWhatsNew());
+            }
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		loginWindow.setVisible(false);
 		window = new MainWindow();
 		window.setTitle("LGI Chat");
