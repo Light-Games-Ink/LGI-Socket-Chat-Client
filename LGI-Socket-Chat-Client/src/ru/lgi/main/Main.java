@@ -48,10 +48,14 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			if (Integer.parseInt(Updater.getLatestVersion()) > version) {
-                new UpdateInfo(Updater.getWhatsNew());
+               new UpdateInfo(Updater.getWhatsNew());
+           
             }
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(null, e1.getMessage());
+		}
+		while(Thread.activeCount() > 1){ 
+			
 		}
 		loginWindow.setVisible(false);
 		window = new MainWindow();

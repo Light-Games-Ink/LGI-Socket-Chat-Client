@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
  * @author Thomas Otero H3R3T1C
  */
 @SuppressWarnings("serial")
-public class UpdateInfo extends JFrame{
+public class UpdateInfo extends JFrame {
 
     private JEditorPane infoPane;
     private JScrollPane scp;
