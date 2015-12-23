@@ -70,7 +70,7 @@ public class Main {
 			public void actionPerformed(ActionEvent e) {
 				String temp = "&L" + loginWindow.getLoginField().getText().trim().replace("\n", "") + "&P" + String.valueOf(loginWindow.getPasswordField().getPassword()).trim().replace("\n", "");
 				socket.write(temp.getBytes(cs));
-				loginWindow.setVisible(false);
+				loginWindow.dispose();
 			}
 		});
 		loginWindow.btnRegister.addActionListener(new ActionListener() {
@@ -82,7 +82,7 @@ public class Main {
 				case JOptionPane.YES_OPTION:
 					String temp = "&R" + loginWindow.getLoginField().getText().trim().replace("\n", "") + "&P" + String.valueOf(loginWindow.getPasswordField().getPassword()).trim().replace("\n", "");
 					socket.write(temp.getBytes(cs));
-					loginWindow.setVisible(false);;
+					loginWindow.dispose();
 					break;
 				case JOptionPane.NO_OPTION:
 

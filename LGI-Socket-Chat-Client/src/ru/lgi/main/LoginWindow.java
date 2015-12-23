@@ -3,9 +3,6 @@
  */
 package ru.lgi.main;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,30 +29,20 @@ public class LoginWindow extends JFrame {
 		setType(Type.POPUP);
 		setResizable(false);
 		setTitle("Login");
-		setSize(273, 136);
+		setSize(273, 142);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
 		panel = new JPanel();
-		panel.setBounds(0, 0, 300, 113);
+		panel.setBounds(0, 0, 267, 110);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
 		btnLogIn = new JButton("Log In");
-		btnLogIn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnLogIn.setBounds(179, 86, 64, 16);
 		panel.add(btnLogIn);
 
 		btnRegister = new JButton("Register");
-		btnRegister.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-					}
-		
-		});
 		btnRegister.setBounds(92, 86, 76, 16);
 		panel.add(btnRegister);
 
