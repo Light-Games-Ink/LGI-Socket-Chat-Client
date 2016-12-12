@@ -93,8 +93,8 @@ public class Main {
 			}
 
 		});
-		// host = "37.143.8.24"; //unix-based server (CentOS)
-		host = "127.0.0.1"; // OS X server (10.7.5)
+		 host = "95.183.13.147"; //unix-based server (CentOS)
+		//host = "127.0.0.1"; // OS X server (10.7.5)
 		// host = "66.66.66.119"; //Wndows Server (Win XP)
 		port = 5674;
 
