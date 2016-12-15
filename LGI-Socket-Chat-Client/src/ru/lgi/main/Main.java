@@ -145,7 +145,9 @@ public class Main {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String temp = settings.userNickname.getText().substring(0, 8).trim();
+				String temp = settings.userNickname.getText().trim();
+				if(temp.length()>9)
+					temp = temp.substring(0, 8);
 				if(temp.equals(""))
 					socket.write(("&C" + getHexColor(settings.selectedColor.getBackground().darker())).getBytes(cs));
 				else
