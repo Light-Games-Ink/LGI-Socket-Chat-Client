@@ -10,6 +10,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.JOptionPane;
 
@@ -143,7 +145,11 @@ public class Main {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				socket.write(("&C" + getHexColor(settings.selectedColor.getBackground().darker())).getBytes(cs));
+				String temp = settings.userNickname.getText().substring(0, 8).trim();
+				if(temp.equals(""))
+					socket.write(("&C" + getHexColor(settings.selectedColor.getBackground().darker())).getBytes(cs));
+				else
+					socket.write(("&C" + getHexColor(settings.selectedColor.getBackground().darker()) + "&N" + String.valueOf(temp.length()) + temp).getBytes(cs));
 				settings.dispose();
 			}
 
@@ -207,7 +213,7 @@ public class Main {
 
 					} else {
 						window.chatTextEditor.setText(window.chatTextEditor.getText().substring(0,
-								window.chatTextEditor.getText().length() - 18) + "\n" + msg + "<br></body></html>");
+								window.chatTextEditor.getText().length() - 18) + "\n" + getTime() + msg + "<br></body></html>");
 						window.chatTextEditor.setCaretPosition(window.chatTextEditor.getDocument().getLength());
 					}
 				} catch (Exception ex) {
@@ -248,5 +254,9 @@ public class Main {
 	public static String getHexColor(Color color) {
 		final String hex = Integer.toHexString(color.getRGB()).toUpperCase();
 		return "#" + hex.substring(2, hex.length());
+	}
+	
+	private static String getTime(){
+		return new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()) + " ";
 	}
 }

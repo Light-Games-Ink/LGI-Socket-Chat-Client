@@ -64,6 +64,10 @@ public class AdminWindow extends JFrame {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(6, 24, 160, 27);
 		panel_1.add(comboBox);
+		
+		JButton btnClearHistory = new JButton("Clear History");
+		btnClearHistory.setBounds(6, 113, 354, 29);
+		getContentPane().add(btnClearHistory);
 
 	}
 }
